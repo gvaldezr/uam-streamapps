@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAM StreamApps — Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <a href="{{ url_for('dashboard') }}" class="navbar-brand">
+                <span class="logo-icon">📊</span>
+                <div>
+                    <h1>UAM StreamApps</h1>
+                    <div class="subtitle">Panel de Control — Refinitiv Workspace</div>
+                </div>
+            </a>
+            <div class="navbar-right">
+                <div class="navbar-user">
+                    {{ session.usuario }}
+                    <span class="rol-badge">Profesor</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="btn btn-logout btn-sm">
+                    🚪 Cerrar sesión
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <div class="main-content">
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-total">{{ total }}</div>
+                    <div class="stat-label">Total Contenedores</div>
+                </div>
+                <div class="stat-card libre">
+                    <div class="stat-number" id="stat-libres">{{ libres }}</div>
+                    <div class="stat-label">🟢 Libres</div>
+                </div>
+                <div class="stat-card ocupado">
+                    <div class="stat-number" id="stat-ocupados">{{ ocupados }}</div>
+                    <div class="stat-label">🔴 Ocupados</div>
+                </div>
+                <div class="stat-card dorado">
+                    <div class="stat-number" id="stat-hora">{{ hora_actual[-8:] }}</div>
+                    <div class="stat-label">🕐 Hora Actual (CDMX)</div>
+                </div>
+            </div>
+
+            <!-- Horarios de clases -->
+            <div class="horarios-panel">
+                <h3>🗓️ Horarios de Clases</h3>
+                <div class="horarios-grid">
+                    {% for cid, info in clases_info.items() %}
+                    <div class="horario-item">
+                        <div class="clase-nombre">{{ info.nombre }}</div>
+                        <div class="clase-hora">{{ info.hora_inicio }} — {{ info.hora_fin }}</div>
+                        <div class="clase-dias">{{ info.dias }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Tabla de contenedores -->
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h2>🖥️ Contenedores Kasm ({{ total }})</h2>
+                    <div class="refresh-indicator">
+                        <span class="refresh-dot"></span>
+                        Auto-refresh cada 30s
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="tabla-contenedores">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Puerto</th>
+                                <th>Estado</th>
+                                <th>Clase</th>
+                                <th>Usuario</th>
+                                <th>Hora Conexión</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-contenedores">
+                            {% for c in contenedores %}
+                            <tr>
+                                <td><strong>{{ c.id }}</strong></td>
+                                <td>{{ c.puerto }}</td>
+                                <td>
+                                    {% if c.estado == "libre" %}
+                                        <span class="estado-badge estado-libre">🟢 Libre</span>
+                                    {% else %}
+                                        <span class="estado-badge estado-ocupado">🔴 Ocupado</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ c.clase or '—' }}</td>
+                                <td>{{ c.usuario or '—' }}</td>
+                                <td>{{ c.hora_conexion or '—' }}</td>
+                                <td>
+                                    <a href="{{ url_for('profesor_entrar', container_id=c.id) }}"
+                                       class="btn btn-primary btn-sm" title="Entrar al contenedor">
+                                        ▶ Entrar
+                                    </a>
+                                    {% if c.estado == "ocupado" %}
+                                    <form method="POST" action="{{ url_for('liberar', container_id=c.id) }}"
+                                          style="display: inline;" onsubmit="return confirm('¿Liberar contenedor {{ c.id }}?')">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Liberar contenedor">
+                                            ✕ Liberar
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            UAM StreamApps v1.0 · Universidad Anáhuac Mayab · Laboratorio de Finanzas
+        </footer>
+    </div>
+
+    <!-- Auto-refresh script -->
+    <script>
+        const HOST = "{{ host }}";
+
+        async function refreshData() {
+            try {
+                const res = await fetch('/api/status/resumen');
+                if (!res.ok) return;
+                const data = await res.json();
+
+                // Update stats
+                document.getElementById('stat-libres').textContent = data.libres;
+                document.getElementById('stat-ocupados').textContent = data.ocupados;
+                document.getElementById('stat-total').textContent = data.total;
+                document.getElementById('stat-hora').textContent = data.hora_actual.slice(-8);
+
+                // Update table
+                const tbody = document.getElementById('tbody-contenedores');
+                let html = '';
+                data.contenedores.forEach(c => {
+                    const estadoBadge = c.estado === 'libre'
+                        ? '<span class="estado-badge estado-libre">🟢 Libre</span>'
+                        : '<span class="estado-badge estado-ocupado">🔴 Ocupado</span>';
+
+                    const liberarBtn = c.estado === 'ocupado'
+                        ? `<form method="POST" action="/liberar/${c.id}" style="display:inline;"
+                               onsubmit="return confirm('¿Liberar contenedor ${c.id}?')">
+                               <button type="submit" class="btn btn-danger btn-sm">✕ Liberar</button>
+                           </form>`
+                        : '';
+
+                    html += `<tr>
+                        <td><strong>${c.id}</strong></td>
+                        <td>${c.puerto}</td>
+                        <td>${estadoBadge}</td>
+                        <td>${c.clase || '—'}</td>
+                        <td>${c.usuario || '—'}</td>
+                        <td>${c.hora_conexion || '—'}</td>
+                        <td>
+                            <a href="/profesor/entrar/${c.id}" class="btn btn-primary btn-sm">▶ Entrar</a>
+                            ${liberarBtn}
+                        </td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+
+            } catch (err) {
+                console.error('Error en auto-refresh:', err);
+            }
+        }
+
+        // Refresh cada 30 segundos
+        setInterval(refreshData, 30000);
+    </script>
+</body>
+</html>

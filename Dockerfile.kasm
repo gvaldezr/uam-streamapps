@@ -1,0 +1,30 @@
+FROM kasmweb/chrome:1.15.0
+
+# Imagen custom de Kasm Chrome para UAM StreamApps
+# Fixes probados y validados para Mac (ARM emulación) y Linux
+LABEL maintainer="UAM StreamApps Project"
+
+USER root
+
+# Fix 1: Pre-crear Chrome Preferences en el perfil por defecto
+# Esto previene que el wrapper de Chrome falle con sed en la primera ejecución
+RUN mkdir -p /home/kasm-default-profile/.config/google-chrome/Default && \
+    echo '{"exit_type":"None","exited_cleanly":true}' > /home/kasm-default-profile/.config/google-chrome/Default/Preferences && \
+    chown -R 1000:1000 /home/kasm-default-profile/.config/google-chrome
+
+# Fix 2: Reemplazar wrapper de Chrome para manejar Preferences faltante
+COPY google-chrome-wrapper.sh /usr/bin/google-chrome
+RUN chmod +x /usr/bin/google-chrome
+
+# Fix 3: Parchear desktop_ready para no bloquear infinitamente
+# El script original espera forever por xfce4-session que no arranca
+# en emulación ARM→AMD64. Timeout de 5 segundos y continuar.
+RUN echo '#!/usr/bin/env bash' > /usr/bin/desktop_ready && \
+    echo 'for i in $(seq 1 10); do pidof xfce4-session > /dev/null 2>&1 && exit 0; sleep .5; done' >> /usr/bin/desktop_ready && \
+    echo 'echo "desktop_ready: timeout, continuando de todos modos"' >> /usr/bin/desktop_ready && \
+    chmod +x /usr/bin/desktop_ready
+
+# Fix 4: Crear directorio de persistencia de Chrome
+RUN mkdir -p /opt/chrome-data && chown 1000:1000 /opt/chrome-data
+
+USER 1000

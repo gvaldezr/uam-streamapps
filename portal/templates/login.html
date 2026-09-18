@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAM StreamApps — Iniciar Sesión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Header -->
+            <div class="login-header">
+                <div class="logo-icon">📊</div>
+                <h1>UAM StreamApps</h1>
+                <div class="subtitle">Refinitiv Workspace</div>
+            </div>
+
+            <!-- Body -->
+            <div class="login-body">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Fuera de horario -->
+                {% if fuera_de_horario %}
+                    <div class="horario-card">
+                        <div class="icon">🕐</div>
+                        <h2>Fuera de horario</h2>
+                        <p style="color: #555; margin-bottom: 0.5rem;">
+                            {{ nombre_clase }} no está disponible en este momento.
+                        </p>
+                        <div class="horario-detalle">
+                            {{ hora_inicio }} — {{ hora_fin }} hrs
+                        </div>
+                        <div class="dias">
+                            {{ dias }}
+                        </div>
+                        <a href="{{ url_for('logout') }}" class="btn btn-outline" style="margin-top: 1.5rem;">
+                            ← Volver al inicio
+                        </a>
+                    </div>
+                {% else %}
+                    <!-- Formulario de login -->
+                    <form method="POST" action="{{ url_for('login') }}" autocomplete="off">
+                        <div class="form-group">
+                            <label for="usuario">👤 Usuario</label>
+                            <input type="text" id="usuario" name="usuario"
+                                   placeholder="Ingresa tu usuario"
+                                   required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="clave">🔒 Contraseña</label>
+                            <input type="password" id="clave" name="clave"
+                                   placeholder="Ingresa tu contraseña"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn-login">
+                            Iniciar Sesión
+                        </button>
+                    </form>
+
+                    <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <small style="color: #999;">
+                            Universidad Anáhuac Mayab · Laboratorio de Finanzas
+                        </small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

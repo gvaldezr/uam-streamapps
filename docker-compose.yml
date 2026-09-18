@@ -1,0 +1,333 @@
+# =============================================================================
+# UAM StreamApps - Docker Compose Maestro
+# Orquesta el portal web y 25 contenedores Kasm (terminales de streaming)
+# Generado automáticamente - 25 instancias con anclas YAML para evitar
+# repetición de configuración común.
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Portal Web - Interfaz de administración y monitoreo
+  # ---------------------------------------------------------------------------
+  portal:
+    build: ./portal
+    container_name: uam_portal
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config.json:/app/config.json:ro
+    env_file: .env
+    restart: unless-stopped
+    depends_on:
+      - kasm_01
+      - kasm_02
+      - kasm_03
+      - kasm_04
+      - kasm_05
+      - kasm_06
+      - kasm_07
+      - kasm_08
+      - kasm_09
+      - kasm_10
+      - kasm_11
+      - kasm_12
+      - kasm_13
+      - kasm_14
+      - kasm_15
+      - kasm_16
+      - kasm_17
+      - kasm_18
+      - kasm_19
+      - kasm_20
+      - kasm_21
+      - kasm_22
+      - kasm_23
+      - kasm_24
+      - kasm_25
+
+  # ---------------------------------------------------------------------------
+  # Contenedores Kasm (01-25) - Terminales de streaming con Chrome
+  # Cada uno expone VNC en un puerto único (6901-6925) y monta un volumen
+  # persistente para datos de sesión de Chrome.
+  #
+  # Se usa un ancla YAML (&kasm_defaults) para definir la configuración común
+  # una sola vez. Cada contenedor solo especifica lo que cambia:
+  #   - container_name
+  #   - puerto del host
+  #   - volumen de datos de Chrome
+  # ---------------------------------------------------------------------------
+
+  # --- Contenedor 01 (define el ancla con la configuración base) ---
+  kasm_01:
+    &kasm_defaults
+    build:
+      context: .
+      dockerfile: Dockerfile.kasm
+    platform: linux/amd64
+    container_name: kasm_01
+    restart: unless-stopped
+    shm_size: 2gb
+    cap_add:
+      - SYS_ADMIN
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    environment:
+      VNC_PW: "Mayab2026"
+      LAUNCH_URL: "https://amers1.identity.ciam.refinitiv.net/auth/UI/Login?epaid=3463a59213444428bee5ead88ff1d9004441b654&goto=https%3A%2F%2Fsts.identity.ciam.refinitiv.net%2Foauth2%2Fv1%2Fauthorize%3Fclient_id%3D3463a59213444428bee5ead88ff1d9004441b654%26redirect_uri%3Dhttps%253A%252F%252Fworkspace.refinitiv.com%252Fauth%252Fcallback%26response_type%3Dcode%26state%3D01f7013be25f41ec8e4bfe5ac407614d%26scope%3Dtrapi.eikon.sessioninfo%2520trapi%2520trading%2520finmechanics%2520rdpapi%2520app"
+      KASM_SVC_AUDIO: "0"
+      KASM_SVC_AUDIO_INPUT: "0"
+    ports:
+      - "6901:6901"
+    volumes:
+      - kasm_chrome_01:/opt/chrome-data
+
+  # --- Contenedor 02 ---
+  kasm_02:
+    <<: *kasm_defaults
+    container_name: kasm_02
+    ports:
+      - "6902:6901"
+    volumes:
+      - kasm_chrome_02:/opt/chrome-data
+
+  # --- Contenedor 03 ---
+  kasm_03:
+    <<: *kasm_defaults
+    container_name: kasm_03
+    ports:
+      - "6903:6901"
+    volumes:
+      - kasm_chrome_03:/opt/chrome-data
+
+  # --- Contenedor 04 ---
+  kasm_04:
+    <<: *kasm_defaults
+    container_name: kasm_04
+    ports:
+      - "6904:6901"
+    volumes:
+      - kasm_chrome_04:/opt/chrome-data
+
+  # --- Contenedor 05 ---
+  kasm_05:
+    <<: *kasm_defaults
+    container_name: kasm_05
+    ports:
+      - "6905:6901"
+    volumes:
+      - kasm_chrome_05:/opt/chrome-data
+
+  # --- Contenedor 06 ---
+  kasm_06:
+    <<: *kasm_defaults
+    container_name: kasm_06
+    ports:
+      - "6906:6901"
+    volumes:
+      - kasm_chrome_06:/opt/chrome-data
+
+  # --- Contenedor 07 ---
+  kasm_07:
+    <<: *kasm_defaults
+    container_name: kasm_07
+    ports:
+      - "6907:6901"
+    volumes:
+      - kasm_chrome_07:/opt/chrome-data
+
+  # --- Contenedor 08 ---
+  kasm_08:
+    <<: *kasm_defaults
+    container_name: kasm_08
+    ports:
+      - "6908:6901"
+    volumes:
+      - kasm_chrome_08:/opt/chrome-data
+
+  # --- Contenedor 09 ---
+  kasm_09:
+    <<: *kasm_defaults
+    container_name: kasm_09
+    ports:
+      - "6909:6901"
+    volumes:
+      - kasm_chrome_09:/opt/chrome-data
+
+  # --- Contenedor 10 ---
+  kasm_10:
+    <<: *kasm_defaults
+    container_name: kasm_10
+    ports:
+      - "6910:6901"
+    volumes:
+      - kasm_chrome_10:/opt/chrome-data
+
+  # --- Contenedor 11 ---
+  kasm_11:
+    <<: *kasm_defaults
+    container_name: kasm_11
+    ports:
+      - "6911:6901"
+    volumes:
+      - kasm_chrome_11:/opt/chrome-data
+
+  # --- Contenedor 12 ---
+  kasm_12:
+    <<: *kasm_defaults
+    container_name: kasm_12
+    ports:
+      - "6912:6901"
+    volumes:
+      - kasm_chrome_12:/opt/chrome-data
+
+  # --- Contenedor 13 ---
+  kasm_13:
+    <<: *kasm_defaults
+    container_name: kasm_13
+    ports:
+      - "6913:6901"
+    volumes:
+      - kasm_chrome_13:/opt/chrome-data
+
+  # --- Contenedor 14 ---
+  kasm_14:
+    <<: *kasm_defaults
+    container_name: kasm_14
+    ports:
+      - "6914:6901"
+    volumes:
+      - kasm_chrome_14:/opt/chrome-data
+
+  # --- Contenedor 15 ---
+  kasm_15:
+    <<: *kasm_defaults
+    container_name: kasm_15
+    ports:
+      - "6915:6901"
+    volumes:
+      - kasm_chrome_15:/opt/chrome-data
+
+  # --- Contenedor 16 ---
+  kasm_16:
+    <<: *kasm_defaults
+    container_name: kasm_16
+    ports:
+      - "6916:6901"
+    volumes:
+      - kasm_chrome_16:/opt/chrome-data
+
+  # --- Contenedor 17 ---
+  kasm_17:
+    <<: *kasm_defaults
+    container_name: kasm_17
+    ports:
+      - "6917:6901"
+    volumes:
+      - kasm_chrome_17:/opt/chrome-data
+
+  # --- Contenedor 18 ---
+  kasm_18:
+    <<: *kasm_defaults
+    container_name: kasm_18
+    ports:
+      - "6918:6901"
+    volumes:
+      - kasm_chrome_18:/opt/chrome-data
+
+  # --- Contenedor 19 ---
+  kasm_19:
+    <<: *kasm_defaults
+    container_name: kasm_19
+    ports:
+      - "6919:6901"
+    volumes:
+      - kasm_chrome_19:/opt/chrome-data
+
+  # --- Contenedor 20 ---
+  kasm_20:
+    <<: *kasm_defaults
+    container_name: kasm_20
+    ports:
+      - "6920:6901"
+    volumes:
+      - kasm_chrome_20:/opt/chrome-data
+
+  # --- Contenedor 21 ---
+  kasm_21:
+    <<: *kasm_defaults
+    container_name: kasm_21
+    ports:
+      - "6921:6901"
+    volumes:
+      - kasm_chrome_21:/opt/chrome-data
+
+  # --- Contenedor 22 ---
+  kasm_22:
+    <<: *kasm_defaults
+    container_name: kasm_22
+    ports:
+      - "6922:6901"
+    volumes:
+      - kasm_chrome_22:/opt/chrome-data
+
+  # --- Contenedor 23 ---
+  kasm_23:
+    <<: *kasm_defaults
+    container_name: kasm_23
+    ports:
+      - "6923:6901"
+    volumes:
+      - kasm_chrome_23:/opt/chrome-data
+
+  # --- Contenedor 24 ---
+  kasm_24:
+    <<: *kasm_defaults
+    container_name: kasm_24
+    ports:
+      - "6924:6901"
+    volumes:
+      - kasm_chrome_24:/opt/chrome-data
+
+  # --- Contenedor 25 ---
+  kasm_25:
+    <<: *kasm_defaults
+    container_name: kasm_25
+    ports:
+      - "6925:6901"
+    volumes:
+      - kasm_chrome_25:/opt/chrome-data
+
+# =============================================================================
+# Volúmenes persistentes para datos de sesión de Chrome
+# Cada contenedor Kasm tiene su propio volumen para mantener cookies,
+# caché y sesiones activas entre reinicios.
+# =============================================================================
+volumes:
+  kasm_chrome_01:
+  kasm_chrome_02:
+  kasm_chrome_03:
+  kasm_chrome_04:
+  kasm_chrome_05:
+  kasm_chrome_06:
+  kasm_chrome_07:
+  kasm_chrome_08:
+  kasm_chrome_09:
+  kasm_chrome_10:
+  kasm_chrome_11:
+  kasm_chrome_12:
+  kasm_chrome_13:
+  kasm_chrome_14:
+  kasm_chrome_15:
+  kasm_chrome_16:
+  kasm_chrome_17:
+  kasm_chrome_18:
+  kasm_chrome_19:
+  kasm_chrome_20:
+  kasm_chrome_21:
+  kasm_chrome_22:
+  kasm_chrome_23:
+  kasm_chrome_24:
+  kasm_chrome_25:

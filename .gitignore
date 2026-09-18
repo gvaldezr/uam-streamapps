@@ -1,0 +1,94 @@
+# =============================================================================
+# .gitignore - Kasm Chrome UAM StreamApps
+# =============================================================================
+
+# Archivos de entorno (con datos sensibles)
+.env
+.env.local
+.env.*.local
+
+# Datos persistentes de Chrome
+chrome-data/
+/opt/chrome-data/
+
+# Directorios de usuario
+downloads/
+shared/
+/home/kasm-default-profile/
+
+# Archivos temporales y caché
+*.swp
+*.swo
+*~
+.DS_Store
+.cache
+*.tmp
+*.log
+*.bak
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Herramientas de desarrollo
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+env/
+
+# Node.js (si aplica)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Git
+.git/
+.gitmodules
+
+# Backups
+*.backup
+*.orig
+*.bkp
+
+# Archivos generados
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Sistema
+.trash/
+Thumbs.db
+.TemporaryItems
+.VolumeIcon.icns
+.AppleDouble
+.LSOverride
+
+# IDE Settings (no versionar configuración específica del usuario)
+.editorconfig
+.vscode/settings.json
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Archivos de contraseña/secretos
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+.kube/config
+
+# Archivos de prueba grandes
+test_data/
+test_output/
+*.large
+*.huge

@@ -1,0 +1,76 @@
+{
+  "clases": {
+    "A": {
+      "nombre": "Clase A",
+      "horario": {
+        "hora_inicio": "09:00",
+        "hora_fin": "11:00",
+        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "claseA",
+          "password": "MayabA2026"
+        },
+        "profesor": {
+          "usuario": "profA",
+          "password": "ProfMayabA2026"
+        }
+      }
+    },
+    "B": {
+      "nombre": "Clase B",
+      "horario": {
+        "hora_inicio": "11:15",
+        "hora_fin": "13:15",
+        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "claseB",
+          "password": "MayabB2026"
+        },
+        "profesor": {
+          "usuario": "profB",
+          "password": "ProfMayabB2026"
+        }
+      }
+    },
+    "C": {
+      "nombre": "Clase C",
+      "horario": {
+        "hora_inicio": "15:00",
+        "hora_fin": "17:00",
+        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "claseC",
+          "password": "MayabC2026"
+        },
+        "profesor": {
+          "usuario": "profC",
+          "password": "ProfMayabC2026"
+        }
+      }
+    }
+  },
+  "contenedores": {
+    "cantidad": 25,
+    "puerto_base": 6901,
+    "imagen": "uam-streamapps:latest",
+    "vnc": {
+      "password": "Mayab2026",
+      "puerto_offset": 5901
+    }
+  },
+  "lseg_refinitiv": {
+    "url": "https://amers1.identity.ciam.refinitiv.net/auth/UI/Login?epaid=3463a59213444428bee5ead88ff1d9004441b654&goto=https%3A%2F%2Fsts.identity.ciam.refinitiv.net%2Foauth2%2Fv1%2Fauthorize%3Fclient_id%3D3463a59213444428bee5ead88ff1d9004441b654%26redirect_uri%3Dhttps%253A%252F%252Fworkspace.refinitiv.com%252Fauth%252Fcallback%26response_type%3Dcode%26state%3D01f7013be25f41ec8e4bfe5ac407614d%26scope%3Dtrapi.eikon.sessioninfo%2520trapi%2520trading%2520finmechanics%2520rdpapi%2520app",
+    "nombre_plataforma": "LSEG Refinitiv"
+  },
+  "configuracion_general": {
+    "nombre_proyecto": "UAM StreamApps",
+    "version": "1.0",
+    "ambiente": "produccion"
+  }
+}
