@@ -3,35 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAM StreamApps — Conectando</title>
+    <title>UAM StreamApps — Tu sesión</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="session-container">
         <div class="session-card">
-            <!-- Spinner -->
             <div class="spinner" id="spinner"></div>
 
-            <h2>Conectando a tu sesión de Refinitiv...</h2>
+            <h2 id="status-text">Conectando a tu sesión de Refinitiv...</h2>
 
             <div class="session-info">
                 <p><strong>{{ nombre_clase }}</strong> · Contenedor #{{ container_id }}</p>
-                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #888;">
-                    Serás redirigido automáticamente en unos segundos.
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #888;" id="sub-status">
+                    Serás redirigido automáticamente...
                 </p>
-            </div>
-
-            <!-- URL del contenedor -->
-            <div class="session-url" id="kasm-url">
-                {{ kasm_url }}
             </div>
 
             <!-- Botones -->
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                 <a href="{{ kasm_url }}" class="btn btn-gold" id="btn-entrar"
-                   style="justify-content: center; padding: 0.75rem; font-size: 1rem;"
+                   style="justify-content: center; padding: 0.85rem; font-size: 1.05rem;"
                    target="_blank" rel="noopener">
-                    🖥️ Abrir sesión de Refinitiv
+                    🖥️ Abrir Refinitiv Workspace
                 </a>
 
                 {% if es_profesor is defined and es_profesor %}
@@ -52,9 +46,9 @@
             </div>
 
             <!-- Info adicional -->
-            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
                 <p style="font-size: 0.78rem; color: #999;">
-                    💡 Si la página no abre automáticamente, haz clic en "Abrir sesión de Refinitiv".<br>
+                    💡 La primera vez tendrás que aceptar el certificado de seguridad (clic en "Avanzado" → "Continuar").<br>
                     Tu sesión se liberará automáticamente al cerrar sesión o después de 3 horas.
                 </p>
             </div>
@@ -63,21 +57,13 @@
 
     <!-- Auto-redirect -->
     <script>
-        const kasmUrl = "{{ kasm_url }}";
-        const esProfesor = {{ 'true' if (es_profesor is defined and es_profesor) else 'false' }};
-
-        // Auto-redirect después de 3 segundos
         setTimeout(function() {
-            window.open(kasmUrl, '_blank');
-            const spinner = document.getElementById('spinner');
-            if (spinner) {
-                spinner.style.borderTopColor = '#4caf50';
-                spinner.style.animationDuration = '2s';
-            }
-            document.querySelector('h2').textContent = '✅ Sesión abierta';
-            document.querySelector('.session-info p:first-child').innerHTML =
-                '<strong>Tu sesión de Refinitiv está activa.</strong>';
-        }, 3000);
+            window.open("{{ kasm_url }}", "_blank");
+            document.getElementById("status-text").textContent = "✅ Sesión abierta";
+            document.getElementById("sub-status").textContent = "Tu sesión de Refinitiv está activa en otra pestaña.";
+            var spinner = document.getElementById("spinner");
+            if (spinner) { spinner.style.borderTopColor = "#4caf50"; spinner.style.animationDuration = "2s"; }
+        }, 2000);
     </script>
 </body>
 </html>

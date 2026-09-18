@@ -4,6 +4,26 @@
 # Para producción: cambiar a 25 contenedores (ver instrucciones al final)
 # =============================================================================
 
+# Configuración común para contenedores Kasm (YAML anchor)
+x-kasm-defaults: &kasm_defaults
+  build:
+    context: .
+    dockerfile: Dockerfile.kasm
+  platform: linux/amd64
+  restart: unless-stopped
+  shm_size: "2gb"
+  cap_add:
+    - SYS_ADMIN
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.1.1.1
+  environment:
+    VNC_PW: "Mayab2026"
+    LAUNCH_URL: "https://amers1.identity.ciam.refinitiv.net/auth/UI/Login?epaid=3463a59213444428bee5ead88ff1d9004441b654&goto=https%3A%2F%2Fsts.identity.ciam.refinitiv.net%2Foauth2%2Fv1%2Fauthorize%3Fclient_id%3D3463a59213444428bee5ead88ff1d9004441b654%26redirect_uri%3Dhttps%253A%252F%252Fworkspace.refinitiv.com%252Fauth%252Fcallback%26response_type%3Dcode%26state%3D01f7013be25f41ec8e4bfe5ac407614d%26scope%3Dtrapi.eikon.sessioninfo%2520trapi%2520trading%2520finmechanics%2520rdpapi%2520app"
+    KASM_SVC_AUDIO: "0"
+    KASM_SVC_AUDIO_INPUT: "0"
+
 services:
 
   # ---------------------------------------------------------------------------
@@ -20,29 +40,20 @@ services:
     restart: unless-stopped
 
   # ---------------------------------------------------------------------------
+  # Nginx Reverse Proxy - Inyecta BasicAuth para KasmVNC
+  # ---------------------------------------------------------------------------
+  nginx:
+    build: ./nginx
+    container_name: uam_nginx
+    ports:
+      - "8901:8901"
+      - "8902:8902"
+      - "8903:8903"
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
   # Contenedores Kasm (01-03) - Chrome con Refinitiv Workspace
   # ---------------------------------------------------------------------------
-
-  # Configuración común (YAML anchor)
-  x-kasm-common: &kasm_defaults
-    build:
-      context: .
-      dockerfile: Dockerfile.kasm
-    platform: linux/amd64
-    restart: unless-stopped
-    shm_size: "2gb"
-    cap_add:
-      - SYS_ADMIN
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-      - 1.1.1.1
-    environment:
-      VNC_PW: "Mayab2026"
-      LAUNCH_URL: "https://amers1.identity.ciam.refinitiv.net/auth/UI/Login?epaid=3463a59213444428bee5ead88ff1d9004441b654&goto=https%3A%2F%2Fsts.identity.ciam.refinitiv.net%2Foauth2%2Fv1%2Fauthorize%3Fclient_id%3D3463a59213444428bee5ead88ff1d9004441b654%26redirect_uri%3Dhttps%253A%252F%252Fworkspace.refinitiv.com%252Fauth%252Fcallback%26response_type%3Dcode%26state%3D01f7013be25f41ec8e4bfe5ac407614d%26scope%3Dtrapi.eikon.sessioninfo%2520trapi%2520trading%2520finmechanics%2520rdpapi%2520app"
-      KASM_SVC_AUDIO: "0"
-      KASM_SVC_AUDIO_INPUT: "0"
-
   kasm_01:
     <<: *kasm_defaults
     container_name: kasm_01
@@ -78,12 +89,8 @@ volumes:
 # =============================================================================
 # ESCALAR A PRODUCCIÓN (25 contenedores):
 # 1. Cambiar "cantidad" en config.json de 3 a 25
-# 2. Agregar kasm_04 a kasm_25 siguiendo el mismo patrón:
-#    kasm_XX:
-#      <<: *kasm_defaults
-#      container_name: kasm_XX
-#      ports: "69XX:6901"
-#      volumes: kasm_chrome_XX:/opt/chrome-data
-# 3. Agregar volúmenes kasm_chrome_04 a kasm_chrome_25
-# 4. docker compose build && docker compose up -d
+# 2. Agregar kasm_04 a kasm_25 en este archivo
+# 3. Agregar locations /kasm/04/ a /kasm/25/ en nginx/nginx.conf
+# 4. Agregar volúmenes kasm_chrome_04 a kasm_chrome_25
+# 5. docker compose build && docker compose up -d
 # =============================================================================

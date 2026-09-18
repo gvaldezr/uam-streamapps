@@ -342,7 +342,10 @@ def conectar():
     host = request.host.split(":")[0]
     puerto = container_asignado["puerto"]
     vnc_clave = config.get("contenedores", {}).get("vnc", {}).get("password", "")
-    kasm_url = f"https://{host}:{puerto}"
+    # Redirigir a través de Nginx reverse proxy (inyecta BasicAuth automáticamente)
+    # Redirigir a través de Nginx (puerto 8900 + id del contenedor)
+    proxy_port = 8900 + container_asignado["id"]
+    kasm_url = f"https://{host}:{proxy_port}"
 
     session["container_id"] = container_asignado["id"]
     session["container_puerto"] = puerto
@@ -350,9 +353,11 @@ def conectar():
     return render_template(
         "session.html",
         kasm_url=kasm_url,
+        kasm_host=host,
+        kasm_port=puerto,
+        vnc_clave=vnc_clave,
         container_id=container_asignado["id"],
         nombre_clase=nombre_clase,
-        vnc_clave=vnc_clave,
     )
 
 
@@ -415,15 +420,19 @@ def profesor_entrar(container_id: int):
         flash("Contenedor no encontrado.", "error")
         return redirect(url_for("dashboard"))
 
-    kasm_url = f"https://{host}:{target['puerto']}"
+    vnc_clave = config.get("contenedores", {}).get("vnc", {}).get("password", "")
+    proxy_port = 8900 + target["id"]
+    kasm_url = f"https://{host}:{proxy_port}"
     nombre_clase = config.get("clases", {}).get(session.get("clase", ""), {}).get("nombre", "Profesor")
 
     return render_template(
         "session.html",
         kasm_url=kasm_url,
+        kasm_host=host,
+        kasm_port=target["puerto"],
+        vnc_clave=vnc_clave,
         container_id=target["id"],
         nombre_clase=nombre_clase,
-        vnc_clave=vnc_clave,
         es_profesor=True,
     )
 
