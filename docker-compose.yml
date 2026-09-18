@@ -33,7 +33,7 @@ services:
     build: ./portal
     container_name: uam_portal
     ports:
-      - "8080:8080"
+      - "8090:8080"
     volumes:
       - ./config.json:/app/config.json:ro
     env_file: .env
