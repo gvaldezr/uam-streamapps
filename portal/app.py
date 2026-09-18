@@ -323,16 +323,25 @@ def conectar():
             dias=dias,
         )
 
-    # ¿Ya tiene un contenedor asignado?
+    # Identificador único por sesión de navegador (no por usuario de clase)
+    # Esto permite que múltiples alumnos con el mismo login de clase
+    # obtengan contenedores diferentes
+    session_id = session.sid if hasattr(session, 'sid') else session.get("_id", id(session))
+    if "session_uid" not in session:
+        import uuid
+        session["session_uid"] = str(uuid.uuid4())
+    session_uid = session["session_uid"]
+
+    # ¿Ya tiene un contenedor asignado esta sesión?
     container_asignado = None
     with containers_lock:
         for c in containers:
-            if c["usuario"] == usuario and c["estado"] == "ocupado":
+            if c["usuario"] == session_uid and c["estado"] == "ocupado":
                 container_asignado = c.copy()
                 break
 
     if not container_asignado:
-        container_asignado = asignar_contenedor(clase_id, usuario)
+        container_asignado = asignar_contenedor(clase_id, session_uid)
 
     if not container_asignado:
         flash("No hay contenedores disponibles en este momento. Intenta de nuevo en unos minutos.", "error")
@@ -472,14 +481,14 @@ def kasm_viewer(container_id: int):
 def liberar(container_id: int):
     """Libera un contenedor (profesor o el propio alumno)."""
     rol = session.get("rol")
-    usuario = session.get("usuario")
+    session_uid = session.get("session_uid")
 
     if rol == "profesor":
         liberar_contenedor(container_id)
     else:
         with containers_lock:
             for c in containers:
-                if c["id"] == container_id and c["usuario"] == usuario:
+                if c["id"] == container_id and c["usuario"] == session_uid:
                     c["estado"] = "libre"
                     c["clase"] = None
                     c["usuario"] = None
@@ -497,9 +506,10 @@ def logout():
     """Cierra sesión y libera contenedor del alumno."""
     usuario = session.get("usuario")
     rol = session.get("rol")
+    session_uid = session.get("session_uid")
 
-    if usuario and rol == "alumno":
-        liberar_contenedor_por_usuario(usuario)
+    if session_uid and rol == "alumno":
+        liberar_contenedor_por_usuario(session_uid)
 
     session.clear()
     flash("Sesión cerrada correctamente.", "success")
