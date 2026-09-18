@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAM StreamApps — Tu sesión</title>
+    <title>UAM StreamApps — Su sesión</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -11,45 +11,48 @@
         <div class="session-card">
             <div class="spinner" id="spinner"></div>
 
-            <h2 id="status-text">Conectando a tu sesión de Refinitiv...</h2>
+            <h2 id="status-text">Conectando a su sesión de Refinitiv...</h2>
 
             <div class="session-info">
                 <p><strong>{{ nombre_clase }}</strong> · Contenedor #{{ container_id }}</p>
-                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #888;" id="sub-status">
-                    Serás redirigido automáticamente...
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ana-gray);" id="sub-status">
+                    Será redirigido automáticamente...
                 </p>
             </div>
 
             <!-- Botones -->
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="{{ kasm_url }}" class="btn btn-gold" id="btn-entrar"
-                   style="justify-content: center; padding: 0.85rem; font-size: 1.05rem;"
+                <a href="{{ kasm_url }}" class="btn btn-primary" id="btn-entrar"
+                   style="justify-content: center; padding: 0.85rem; font-size: 1rem;"
                    target="_blank" rel="noopener">
-                    🖥️ Abrir Refinitiv Workspace
+                    Abrir Refinitiv Workspace
                 </a>
 
                 {% if es_profesor is defined and es_profesor %}
                     <a href="{{ url_for('dashboard') }}" class="btn btn-outline"
                        style="justify-content: center;">
-                        ← Volver al Dashboard
+                        ← Volver al Panel de Control
                     </a>
                 {% else %}
                     <form method="POST" action="{{ url_for('liberar', container_id=container_id) }}"
                           id="form-cerrar">
                         <button type="submit" class="btn btn-danger"
                                 style="width: 100%; justify-content: center;"
-                                onclick="return confirm('¿Cerrar sesión y liberar el contenedor?')">
-                            🚪 Cerrar sesión y liberar contenedor
+                                onclick="return confirm('¿Desea cerrar su sesión y liberar el contenedor?')">
+                            Cerrar sesión y liberar contenedor
                         </button>
                     </form>
                 {% endif %}
             </div>
 
             <!-- Info adicional -->
-            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
-                <p style="font-size: 0.78rem; color: #999;">
-                    💡 La primera vez tendrás que aceptar el certificado de seguridad (clic en "Avanzado" → "Continuar").<br>
-                    Tu sesión se liberará automáticamente al cerrar sesión o después de 3 horas.
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--ana-inactive);">
+                <p style="font-size: 0.78rem; color: var(--ana-footer-gray);">
+                    La primera vez deberá aceptar el certificado de seguridad (clic en "Avanzado" → "Continuar").<br>
+                    Su sesión se liberará automáticamente al cerrar sesión o después de 3 horas.
+                </p>
+                <p style="font-size: 0.7rem; color: var(--ana-footer-gray); margin-top: 0.5rem;">
+                    Universidad <span style="color: var(--ana-primary); font-weight: 600;">Anáhuac Mayab</span><br>Laboratorio de Finanzas
                 </p>
             </div>
         </div>
@@ -59,10 +62,10 @@
     <script>
         setTimeout(function() {
             window.open("{{ kasm_url }}", "_blank");
-            document.getElementById("status-text").textContent = "✅ Sesión abierta";
-            document.getElementById("sub-status").textContent = "Tu sesión de Refinitiv está activa en otra pestaña.";
+            document.getElementById("status-text").textContent = "Sesión abierta";
+            document.getElementById("sub-status").textContent = "Su sesión de Refinitiv está activa en otra pestaña.";
             var spinner = document.getElementById("spinner");
-            if (spinner) { spinner.style.borderTopColor = "#4caf50"; spinner.style.animationDuration = "2s"; }
+            if (spinner) { spinner.style.borderTopColor = "#2D8A39"; spinner.style.animationDuration = "2s"; }
         }, 2000);
     </script>
 </body>

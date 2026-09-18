@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAM StreamApps — Dashboard</title>
+    <title>UAM StreamApps — Panel de Control</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -11,9 +11,9 @@
         <!-- Navbar -->
         <nav class="navbar">
             <a href="{{ url_for('dashboard') }}" class="navbar-brand">
-                <span class="logo-icon">📊</span>
+                <img src="{{ url_for('static', filename='distintivo.png') }}" alt="Anáhuac" class="logo-icon">
                 <div>
-                    <h1>UAM StreamApps</h1>
+                    <h1><span class="brand-name">Anáhuac Mayab</span> StreamApps</h1>
                     <div class="subtitle">Panel de Control — Refinitiv Workspace</div>
                 </div>
             </a>
@@ -23,7 +23,7 @@
                     <span class="rol-badge">Profesor</span>
                 </div>
                 <a href="{{ url_for('logout') }}" class="btn btn-logout btn-sm">
-                    🚪 Cerrar sesión
+                    Cerrar sesión
                 </a>
             </div>
         </nav>
@@ -35,7 +35,6 @@
                 {% if messages %}
                     {% for category, message in messages %}
                         <div class="alert alert-{{ category }}">
-                            {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
                             {{ message }}
                         </div>
                     {% endfor %}
@@ -50,21 +49,21 @@
                 </div>
                 <div class="stat-card libre">
                     <div class="stat-number" id="stat-libres">{{ libres }}</div>
-                    <div class="stat-label">🟢 Libres</div>
+                    <div class="stat-label">Libres</div>
                 </div>
                 <div class="stat-card ocupado">
                     <div class="stat-number" id="stat-ocupados">{{ ocupados }}</div>
-                    <div class="stat-label">🔴 Ocupados</div>
+                    <div class="stat-label">Ocupados</div>
                 </div>
                 <div class="stat-card dorado">
                     <div class="stat-number" id="stat-hora">{{ hora_actual[-8:] }}</div>
-                    <div class="stat-label">🕐 Hora Actual (CDMX)</div>
+                    <div class="stat-label">Hora Actual (CDMX)</div>
                 </div>
             </div>
 
             <!-- Horarios de clases -->
             <div class="horarios-panel">
-                <h3>🗓️ Horarios de Clases</h3>
+                <h3>Horarios de Clases</h3>
                 <div class="horarios-grid">
                     {% for cid, info in clases_info.items() %}
                     <div class="horario-item">
@@ -79,10 +78,10 @@
             <!-- Tabla de contenedores -->
             <div class="table-card">
                 <div class="table-card-header">
-                    <h2>🖥️ Contenedores Kasm ({{ total }})</h2>
+                    <h2>Contenedores Kasm ({{ total }})</h2>
                     <div class="refresh-indicator">
                         <span class="refresh-dot"></span>
-                        Auto-refresh cada 30s
+                        Actualización automática cada 30s
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -105,9 +104,9 @@
                                 <td>{{ c.puerto }}</td>
                                 <td>
                                     {% if c.estado == "libre" %}
-                                        <span class="estado-badge estado-libre">🟢 Libre</span>
+                                        <span class="estado-badge estado-libre">Libre</span>
                                     {% else %}
-                                        <span class="estado-badge estado-ocupado">🔴 Ocupado</span>
+                                        <span class="estado-badge estado-ocupado">Ocupado</span>
                                     {% endif %}
                                 </td>
                                 <td>{{ c.clase or '—' }}</td>
@@ -116,13 +115,13 @@
                                 <td>
                                     <a href="{{ url_for('profesor_entrar', container_id=c.id) }}"
                                        class="btn btn-primary btn-sm" title="Entrar al contenedor">
-                                        ▶ Entrar
+                                        Entrar
                                     </a>
                                     {% if c.estado == "ocupado" %}
                                     <form method="POST" action="{{ url_for('liberar', container_id=c.id) }}"
                                           style="display: inline;" onsubmit="return confirm('¿Liberar contenedor {{ c.id }}?')">
                                         <button type="submit" class="btn btn-danger btn-sm" title="Liberar contenedor">
-                                            ✕ Liberar
+                                            Liberar
                                         </button>
                                     </form>
                                     {% endif %}
@@ -137,7 +136,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            UAM StreamApps v1.0 · Universidad Anáhuac Mayab · Laboratorio de Finanzas
+            UAM StreamApps v1.0 · Universidad <span style="color: var(--ana-primary);">Anáhuac Mayab</span><br>Laboratorio de Finanzas
         </footer>
     </div>
 
@@ -151,24 +150,22 @@
                 if (!res.ok) return;
                 const data = await res.json();
 
-                // Update stats
                 document.getElementById('stat-libres').textContent = data.libres;
                 document.getElementById('stat-ocupados').textContent = data.ocupados;
                 document.getElementById('stat-total').textContent = data.total;
                 document.getElementById('stat-hora').textContent = data.hora_actual.slice(-8);
 
-                // Update table
                 const tbody = document.getElementById('tbody-contenedores');
                 let html = '';
                 data.contenedores.forEach(c => {
                     const estadoBadge = c.estado === 'libre'
-                        ? '<span class="estado-badge estado-libre">🟢 Libre</span>'
-                        : '<span class="estado-badge estado-ocupado">🔴 Ocupado</span>';
+                        ? '<span class="estado-badge estado-libre">Libre</span>'
+                        : '<span class="estado-badge estado-ocupado">Ocupado</span>';
 
                     const liberarBtn = c.estado === 'ocupado'
                         ? `<form method="POST" action="/liberar/${c.id}" style="display:inline;"
                                onsubmit="return confirm('¿Liberar contenedor ${c.id}?')">
-                               <button type="submit" class="btn btn-danger btn-sm">✕ Liberar</button>
+                               <button type="submit" class="btn btn-danger btn-sm">Liberar</button>
                            </form>`
                         : '';
 
@@ -180,7 +177,7 @@
                         <td>${c.usuario || '—'}</td>
                         <td>${c.hora_conexion || '—'}</td>
                         <td>
-                            <a href="/profesor/entrar/${c.id}" class="btn btn-primary btn-sm">▶ Entrar</a>
+                            <a href="/profesor/entrar/${c.id}" class="btn btn-primary btn-sm">Entrar</a>
                             ${liberarBtn}
                         </td>
                     </tr>`;
@@ -192,7 +189,6 @@
             }
         }
 
-        // Refresh cada 30 segundos
         setInterval(refreshData, 30000);
     </script>
 </body>

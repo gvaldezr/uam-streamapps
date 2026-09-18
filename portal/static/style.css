@@ -1,29 +1,80 @@
 /* ============================================================
-   UAM StreamApps — Estilos base
-   Colores institucionales: Azul marino #003366, Dorado #C4A000
+   UAM StreamApps — Identidad Visual Anáhuac Mayab
+   Fuente de verdad: merida.anahuac.mx
+   Naranja #FF5900 | Púrpura #432F64 | Sharp-Bold + Roboto
+   Radius: 5px (botones) / 8px (cards) / 12px (modals)
    ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+
+/* ---- Tokens de marca Anáhuac Mayab ---- */
 :root {
-    --azul-marino: #003366;
-    --azul-oscuro: #002244;
-    --azul-medio: #004488;
-    --dorado: #C4A000;
-    --dorado-claro: #D4B200;
-    --dorado-suave: #F5E6A3;
-    --gris-fondo: #f4f6f9;
-    --gris-claro: #e8ecf1;
-    --gris-texto: #555;
-    --blanco: #ffffff;
-    --rojo-error: #d32f2f;
-    --verde-ok: #2e7d32;
-    --verde-claro: #e8f5e9;
-    --rojo-claro: #fce4ec;
-    --sombra: 0 2px 12px rgba(0, 0, 0, 0.10);
-    --sombra-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
-    --radio: 10px;
-    --transicion: all 0.2s ease;
+    --ana-primary: #FF5900;
+    --ana-primary-hover: #E04F00;
+    --ana-primary-light: #FFF6F1;
+    --ana-tertiary: #432F64;
+    --ana-tertiary-hover: #5D428C;
+    --ana-dark: #231F20;
+    --ana-gray: #6F6F6F;
+    --ana-gray-light: #F3F3F1;
+    --ana-inactive: #EAEAEA;
+    --ana-white: #FFFFFF;
+    --ana-black: #000000;
+    --ana-footer-gray: #A3A9AB;
+    --ana-error: #DC2626;
+    --ana-success: #2D8A39;
+    --ana-shadow: 0px 2px 8px rgba(0,0,0,0.08);
+    --ana-shadow-hover: 0px 4px 16px rgba(0,0,0,0.12);
+    --ana-radius-sm: 5px;
+    --ana-radius-md: 8px;
+    --ana-radius-lg: 12px;
+    --ana-radius-full: 9999px;
+    --ana-transition: all 0.2s ease;
 }
 
+/* ---- Dark Mode (prefers-color-scheme) ---- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ana-dark: #F3F3F1;
+        --ana-gray: #A3A9AB;
+        --ana-gray-light: #1E1E1E;
+        --ana-inactive: #333333;
+        --ana-white: #121212;
+        --ana-primary-light: #2A1A10;
+        --ana-shadow: 0px 3px 8px rgba(0,0,0,0.6);
+        --ana-shadow-hover: 0px 6px 16px rgba(0,0,0,0.5);
+    }
+    body {
+        background: #0F0F0F;
+        color: #F3F3F1;
+    }
+    .login-card, .session-card, .stat-card, .table-card,
+    .horarios-panel, .horario-card {
+        background: #1E1E1E;
+    }
+    .form-group input {
+        background: #2A2A2A;
+        border-color: #444;
+        color: #F3F3F1;
+    }
+    .form-group input:focus {
+        border-color: var(--ana-primary);
+        box-shadow: 0 0 0 3px rgba(255,89,0,0.2);
+    }
+    thead th {
+        background: #2A2A2A;
+        color: var(--ana-primary);
+    }
+    tbody tr:hover {
+        background: #2A2A2A;
+    }
+    .footer {
+        background: #1E1E1E;
+        border-top-color: #333;
+    }
+}
+
+/* ---- Reset ---- */
 * {
     margin: 0;
     padding: 0;
@@ -31,11 +82,18 @@
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-    background: var(--gris-fondo);
-    color: #333;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--ana-gray-light);
+    color: var(--ana-dark);
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
 }
 
 /* ---- Layout general ---- */
@@ -57,13 +115,13 @@ body {
 /* ---- Header / Navbar ---- */
 
 .navbar {
-    background: linear-gradient(135deg, var(--azul-marino), var(--azul-oscuro));
-    color: var(--blanco);
+    background: var(--ana-tertiary);
+    color: #FFFFFF;
     padding: 0.8rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: var(--ana-shadow);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -74,23 +132,31 @@ body {
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    color: var(--blanco);
+    color: #FFFFFF;
 }
 
 .navbar-brand .logo-icon {
-    font-size: 1.6rem;
+    width: 32px;
+    height: auto;
 }
 
 .navbar-brand h1 {
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.3px;
+    color: #FFFFFF;
+}
+
+.navbar-brand .brand-name {
+    color: var(--ana-primary);
+    font-weight: 700;
 }
 
 .navbar-brand .subtitle {
     font-size: 0.75rem;
-    opacity: 0.8;
+    opacity: 0.7;
     font-weight: 400;
+    color: rgba(255,255,255,0.7);
 }
 
 .navbar-right {
@@ -101,88 +167,89 @@ body {
 
 .navbar-user {
     font-size: 0.85rem;
-    opacity: 0.9;
+    color: rgba(255,255,255,0.9);
 }
 
 .navbar-user .rol-badge {
-    background: var(--dorado);
-    color: var(--azul-oscuro);
-    padding: 2px 8px;
-    border-radius: 12px;
+    background: var(--ana-primary);
+    color: #FFFFFF;
+    padding: 2px 10px;
+    border-radius: var(--ana-radius-full);
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     margin-left: 6px;
 }
 
 /* ---- Botones ---- */
+/* Jerarquía: Primary (naranja) > Secondary (outline) > Muted (gris) */
 
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
-    padding: 0.5rem 1.2rem;
+    padding: 10px 24px;
     border: none;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    border-radius: var(--ana-radius-sm);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: var(--transicion);
+    transition: var(--ana-transition);
     white-space: nowrap;
+    line-height: 1.4;
 }
 
-.btn-primary {
-    background: var(--azul-marino);
-    color: var(--blanco);
-}
-
-.btn-primary:hover {
-    background: var(--azul-medio);
-    box-shadow: var(--sombra-hover);
-}
-
+/* Primary: naranja sólido, texto blanco — acción principal */
+.btn-primary,
 .btn-gold {
-    background: var(--dorado);
-    color: var(--azul-oscuro);
+    background: var(--ana-primary);
+    color: #FFFFFF;
+    border: 2px solid var(--ana-primary);
 }
-
+.btn-primary:hover,
 .btn-gold:hover {
-    background: var(--dorado-claro);
-    box-shadow: var(--sombra-hover);
+    background: var(--ana-primary-hover);
+    border-color: var(--ana-primary-hover);
+    box-shadow: var(--ana-shadow-hover);
 }
 
-.btn-danger {
-    background: var(--rojo-error);
-    color: var(--blanco);
-}
-
-.btn-danger:hover {
-    background: #b71c1c;
-}
-
+/* Outline: borde naranja, fondo transparente — acción secundaria */
 .btn-outline {
     background: transparent;
-    border: 2px solid var(--azul-marino);
-    color: var(--azul-marino);
+    border: 2px solid var(--ana-primary);
+    color: var(--ana-primary);
 }
-
 .btn-outline:hover {
-    background: var(--azul-marino);
-    color: var(--blanco);
+    background: var(--ana-primary-light);
 }
 
+/* Muted/Danger: gris sutil — acción destructiva (no compite con primary) */
+.btn-danger {
+    background: transparent;
+    border: 2px solid var(--ana-inactive);
+    color: var(--ana-gray);
+}
+.btn-danger:hover {
+    background: #FEF2F2;
+    border-color: var(--ana-error);
+    color: var(--ana-error);
+}
+
+/* Small variant */
 .btn-sm {
-    padding: 0.35rem 0.8rem;
+    padding: 5px 14px;
     font-size: 0.78rem;
 }
 
+/* Logout en navbar */
 .btn-logout {
     background: rgba(255,255,255,0.15);
-    color: var(--blanco);
+    color: #FFFFFF;
     border: 1px solid rgba(255,255,255,0.3);
 }
-
 .btn-logout:hover {
     background: rgba(255,255,255,0.25);
 }
@@ -195,39 +262,45 @@ body {
     justify-content: center;
     min-height: 100vh;
     padding: 2rem;
-    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-marino) 50%, #004070 100%);
+    background: var(--ana-gray-light);
 }
 
 .login-card {
-    background: var(--blanco);
-    border-radius: var(--radio);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-lg);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.08);
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     overflow: hidden;
 }
 
 .login-header {
-    background: var(--azul-marino);
-    color: var(--blanco);
-    padding: 2rem 2rem 1.5rem;
+    background: var(--ana-white);
+    padding: 2rem 2rem 1rem;
     text-align: center;
+    border-bottom: 1px solid var(--ana-inactive);
 }
 
-.login-header .logo-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+.login-header .login-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 0.75rem;
 }
 
 .login-header h1 {
     font-size: 1.3rem;
     font-weight: 700;
+    color: var(--ana-dark);
     margin-bottom: 0.25rem;
+}
+
+.login-header h1 .brand-name {
+    color: var(--ana-primary);
 }
 
 .login-header .subtitle {
     font-size: 0.85rem;
-    opacity: 0.8;
+    color: var(--ana-gray);
     font-weight: 400;
 }
 
@@ -243,50 +316,52 @@ body {
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--azul-marino);
+    color: var(--ana-dark);
     margin-bottom: 0.4rem;
 }
 
 .form-group input {
     width: 100%;
-    padding: 0.7rem 1rem;
-    border: 2px solid var(--gris-claro);
-    border-radius: 6px;
+    padding: 0.65rem 1rem;
+    border: 1.5px solid var(--ana-inactive);
+    border-radius: var(--ana-radius-sm);
+    font-family: 'Roboto', sans-serif;
     font-size: 0.95rem;
-    transition: var(--transicion);
+    transition: var(--ana-transition);
     outline: none;
+    background: var(--ana-white);
 }
 
 .form-group input:focus {
-    border-color: var(--dorado);
-    box-shadow: 0 0 0 3px rgba(196, 160, 0, 0.15);
+    border-color: var(--ana-primary);
+    box-shadow: 0 0 0 3px rgba(255, 89, 0, 0.15);
 }
 
 .btn-login {
     width: 100%;
-    padding: 0.75rem;
+    padding: 12px 24px;
+    font-family: 'Roboto', sans-serif;
     font-size: 1rem;
-    background: var(--dorado);
-    color: var(--azul-oscuro);
+    background: var(--ana-primary);
+    color: #FFFFFF;
     border: none;
-    border-radius: 6px;
-    font-weight: 700;
+    border-radius: var(--ana-radius-sm);
+    font-weight: 600;
     cursor: pointer;
-    transition: var(--transicion);
+    transition: var(--ana-transition);
     margin-top: 0.5rem;
 }
 
 .btn-login:hover {
-    background: var(--dorado-claro);
-    box-shadow: var(--sombra-hover);
-    transform: translateY(-1px);
+    background: var(--ana-primary-hover);
+    box-shadow: var(--ana-shadow-hover);
 }
 
 /* ---- Alertas / Flash ---- */
 
 .alert {
     padding: 0.75rem 1rem;
-    border-radius: 6px;
+    border-radius: var(--ana-radius-sm);
     margin-bottom: 1rem;
     font-size: 0.85rem;
     font-weight: 500;
@@ -296,35 +371,35 @@ body {
 }
 
 .alert-error {
-    background: var(--rojo-claro);
-    color: var(--rojo-error);
-    border-left: 4px solid var(--rojo-error);
+    background: #FEF2F2;
+    color: var(--ana-error);
+    border-left: 4px solid var(--ana-error);
 }
 
 .alert-success {
-    background: var(--verde-claro);
-    color: var(--verde-ok);
-    border-left: 4px solid var(--verde-ok);
+    background: #F0FDF4;
+    color: var(--ana-success);
+    border-left: 4px solid var(--ana-success);
 }
 
 .alert-info {
-    background: #e3f2fd;
-    color: #1565c0;
-    border-left: 4px solid #1565c0;
+    background: var(--ana-primary-light);
+    color: var(--ana-primary);
+    border-left: 4px solid var(--ana-primary);
 }
 
 .alert-warning {
-    background: #fff8e1;
-    color: #e65100;
-    border-left: 4px solid #e65100;
+    background: #FFF8E1;
+    color: #E65100;
+    border-left: 4px solid #E65100;
 }
 
 /* ---- Fuera de horario ---- */
 
 .horario-card {
-    background: var(--blanco);
-    border-radius: var(--radio);
-    box-shadow: var(--sombra);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-md);
+    box-shadow: var(--ana-shadow);
     padding: 2rem;
     text-align: center;
     margin-top: 1rem;
@@ -336,20 +411,20 @@ body {
 }
 
 .horario-card h2 {
-    color: var(--azul-marino);
+    color: var(--ana-tertiary);
     margin-bottom: 0.5rem;
 }
 
 .horario-card .horario-detalle {
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--dorado);
+    color: var(--ana-primary);
     margin: 0.75rem 0;
 }
 
 .horario-card .dias {
     font-size: 0.9rem;
-    color: var(--gris-texto);
+    color: var(--ana-gray);
 }
 
 /* ---- Dashboard ---- */
@@ -362,59 +437,59 @@ body {
 }
 
 .stat-card {
-    background: var(--blanco);
-    border-radius: var(--radio);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-md);
     padding: 1.25rem;
-    box-shadow: var(--sombra);
+    box-shadow: var(--ana-shadow);
     text-align: center;
-    transition: var(--transicion);
+    transition: var(--ana-transition);
 }
 
 .stat-card:hover {
-    box-shadow: var(--sombra-hover);
+    box-shadow: var(--ana-shadow-hover);
     transform: translateY(-2px);
 }
 
 .stat-card .stat-number {
     font-size: 2rem;
     font-weight: 800;
-    color: var(--azul-marino);
+    color: var(--ana-tertiary);
     line-height: 1.2;
 }
 
 .stat-card .stat-label {
     font-size: 0.8rem;
-    color: var(--gris-texto);
+    color: var(--ana-gray);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
 }
 
 .stat-card.libre .stat-number {
-    color: var(--verde-ok);
+    color: var(--ana-success);
 }
 
 .stat-card.ocupado .stat-number {
-    color: var(--rojo-error);
+    color: var(--ana-error);
 }
 
 .stat-card.dorado .stat-number {
-    color: var(--dorado);
+    color: var(--ana-primary);
 }
 
 /* ---- Tabla de contenedores ---- */
 
 .table-card {
-    background: var(--blanco);
-    border-radius: var(--radio);
-    box-shadow: var(--sombra);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-md);
+    box-shadow: var(--ana-shadow);
     overflow: hidden;
     margin-bottom: 2rem;
 }
 
 .table-card-header {
-    background: var(--azul-marino);
-    color: var(--blanco);
+    background: var(--ana-tertiary);
+    color: #FFFFFF;
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
@@ -436,27 +511,27 @@ table {
 }
 
 thead th {
-    background: #f0f3f8;
+    background: var(--ana-gray-light);
     padding: 0.75rem 1rem;
     text-align: left;
     font-size: 0.78rem;
     font-weight: 700;
-    color: var(--azul-marino);
+    color: var(--ana-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--gris-claro);
+    border-bottom: 2px solid var(--ana-inactive);
     white-space: nowrap;
 }
 
 tbody td {
     padding: 0.65rem 1rem;
     font-size: 0.85rem;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--ana-inactive);
     vertical-align: middle;
 }
 
 tbody tr:hover {
-    background: #f8f9fc;
+    background: var(--ana-primary-light);
 }
 
 .estado-badge {
@@ -464,34 +539,34 @@ tbody tr:hover {
     align-items: center;
     gap: 4px;
     padding: 3px 10px;
-    border-radius: 12px;
+    border-radius: var(--ana-radius-full);
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .estado-libre {
-    background: var(--verde-claro);
-    color: var(--verde-ok);
+    background: #F0FDF4;
+    color: var(--ana-success);
 }
 
 .estado-ocupado {
-    background: var(--rojo-claro);
-    color: var(--rojo-error);
+    background: #FEF2F2;
+    color: var(--ana-error);
 }
 
 /* ---- Horarios panel ---- */
 
 .horarios-panel {
-    background: var(--blanco);
-    border-radius: var(--radio);
-    box-shadow: var(--sombra);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-md);
+    box-shadow: var(--ana-shadow);
     padding: 1.5rem;
     margin-bottom: 2rem;
 }
 
 .horarios-panel h3 {
-    color: var(--azul-marino);
+    color: var(--ana-tertiary);
     font-size: 1rem;
     margin-bottom: 1rem;
     display: flex;
@@ -506,27 +581,27 @@ tbody tr:hover {
 }
 
 .horario-item {
-    background: var(--gris-fondo);
-    border-radius: 8px;
+    background: var(--ana-gray-light);
+    border-radius: var(--ana-radius-md);
     padding: 1rem;
-    border-left: 4px solid var(--dorado);
+    border-left: 4px solid var(--ana-primary);
 }
 
 .horario-item .clase-nombre {
     font-weight: 700;
-    color: var(--azul-marino);
+    color: var(--ana-tertiary);
     margin-bottom: 0.25rem;
 }
 
 .horario-item .clase-hora {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--dorado);
+    color: var(--ana-primary);
 }
 
 .horario-item .clase-dias {
     font-size: 0.8rem;
-    color: var(--gris-texto);
+    color: var(--ana-gray);
     margin-top: 0.25rem;
 }
 
@@ -538,15 +613,15 @@ tbody tr:hover {
     justify-content: center;
     min-height: 100vh;
     padding: 2rem;
-    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-marino) 100%);
+    background: var(--ana-gray-light);
 }
 
 .session-card {
-    background: var(--blanco);
-    border-radius: var(--radio);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    background: var(--ana-white);
+    border-radius: var(--ana-radius-lg);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.08);
     width: 100%;
-    max-width: 500px;
+    max-width: 460px;
     padding: 2.5rem;
     text-align: center;
 }
@@ -554,8 +629,8 @@ tbody tr:hover {
 .session-card .spinner {
     width: 48px;
     height: 48px;
-    border: 4px solid var(--gris-claro);
-    border-top-color: var(--dorado);
+    border: 4px solid var(--ana-inactive);
+    border-top-color: var(--ana-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto 1.5rem;
@@ -566,24 +641,24 @@ tbody tr:hover {
 }
 
 .session-card h2 {
-    color: var(--azul-marino);
+    color: var(--ana-dark);
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
 }
 
 .session-card .session-info {
-    color: var(--gris-texto);
+    color: var(--ana-gray);
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
 }
 
 .session-card .session-url {
-    background: var(--gris-fondo);
-    border-radius: 6px;
+    background: var(--ana-gray-light);
+    border-radius: var(--ana-radius-sm);
     padding: 0.6rem 1rem;
     font-family: 'Courier New', monospace;
     font-size: 0.8rem;
-    color: var(--azul-medio);
+    color: var(--ana-tertiary);
     margin-bottom: 1.5rem;
     word-break: break-all;
 }
@@ -594,9 +669,9 @@ tbody tr:hover {
     text-align: center;
     padding: 1rem;
     font-size: 0.75rem;
-    color: var(--gris-texto);
-    border-top: 1px solid var(--gris-claro);
-    background: var(--blanco);
+    color: var(--ana-footer-gray);
+    border-top: 1px solid var(--ana-inactive);
+    background: var(--ana-white);
 }
 
 /* ---- Refresh indicator ---- */
@@ -613,7 +688,7 @@ tbody tr:hover {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #4caf50;
+    background: var(--ana-success);
     animation: pulse 2s ease-in-out infinite;
 }
 
@@ -645,7 +720,7 @@ tbody tr:hover {
     }
 
     .btn-sm {
-        padding: 0.25rem 0.5rem;
+        padding: 4px 10px;
         font-size: 0.7rem;
     }
 }

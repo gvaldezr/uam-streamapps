@@ -11,9 +11,8 @@
         <div class="login-card">
             <!-- Header -->
             <div class="login-header">
-                <div class="logo-icon">📊</div>
-                <h1>UAM StreamApps</h1>
-                <div class="subtitle">Refinitiv Workspace</div>
+                <img src="{{ url_for('static', filename='distintivo.png') }}" alt="Anáhuac Mayab" class="login-logo">
+                <div class="subtitle" style="color: var(--ana-gray);">StreamApps · Refinitiv Workspace</div>
             </div>
 
             <!-- Body -->
@@ -23,7 +22,6 @@
                     {% if messages %}
                         {% for category, message in messages %}
                             <div class="alert alert-{{ category }}">
-                                {% if category == 'error' %}⚠️{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
                                 {{ message }}
                             </div>
                         {% endfor %}
@@ -33,9 +31,9 @@
                 <!-- Fuera de horario -->
                 {% if fuera_de_horario %}
                     <div class="horario-card">
-                        <div class="icon">🕐</div>
+                        <div class="icon" style="font-size: 2rem; color: var(--ana-tertiary);">Fuera de horario</div>
                         <h2>Fuera de horario</h2>
-                        <p style="color: #555; margin-bottom: 0.5rem;">
+                        <p style="color: var(--ana-gray); margin-bottom: 0.5rem;">
                             {{ nombre_clase }} no está disponible en este momento.
                         </p>
                         <div class="horario-detalle">
@@ -52,15 +50,15 @@
                     <!-- Formulario de login -->
                     <form method="POST" action="{{ url_for('login') }}" autocomplete="off">
                         <div class="form-group">
-                            <label for="usuario">👤 Usuario</label>
+                            <label for="usuario">Usuario</label>
                             <input type="text" id="usuario" name="usuario"
-                                   placeholder="Ingresa tu usuario"
+                                   placeholder="Ingrese su usuario"
                                    required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="clave">🔒 Contraseña</label>
+                            <label for="clave">Contraseña</label>
                             <input type="password" id="clave" name="clave"
-                                   placeholder="Ingresa tu contraseña"
+                                   placeholder="Ingrese su contraseña"
                                    required>
                         </div>
                         <button type="submit" class="btn-login">
@@ -68,9 +66,9 @@
                         </button>
                     </form>
 
-                    <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
-                        <small style="color: #999;">
-                            Universidad Anáhuac Mayab · Laboratorio de Finanzas
+                    <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--ana-inactive);">
+                        <small style="color: var(--ana-footer-gray);">
+                            Universidad <span style="color: var(--ana-primary); font-weight: 600;">Anáhuac Mayab</span><br>Laboratorio de Finanzas
                         </small>
                     </div>
                 {% endif %}
