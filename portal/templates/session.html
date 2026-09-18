@@ -22,7 +22,7 @@
 
             <!-- Botones -->
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="{{ kasm_url }}" class="btn btn-primary" id="btn-entrar"
+                <a href="{{ url_for('kasm_viewer', container_id=container_id) }}" class="btn btn-primary" id="btn-entrar"
                    style="justify-content: center; padding: 0.85rem; font-size: 1rem;"
                    onclick="abrirKasm(event)">
                     Abrir Refinitiv Workspace
@@ -35,10 +35,9 @@
                     </a>
                 {% else %}
                     <form method="POST" action="{{ url_for('liberar', container_id=container_id) }}"
-                          id="form-cerrar" onsubmit="cerrarKasm()">
+                          id="form-cerrar">
                         <button type="submit" class="btn btn-danger"
-                                style="width: 100%; justify-content: center;"
-                                onclick="return confirm('¿Desea cerrar su sesión y liberar el contenedor?')">
+                                style="width: 100%; justify-content: center;">
                             Cerrar sesión y liberar contenedor
                         </button>
                     </form>
@@ -59,33 +58,99 @@
     </div>
 
     <script>
-        // Guardar referencia a la ventana de Kasm para poder cerrarla
-        var kasmWindow = null;
+        (function () {
+            var VIEWER_URL   = "{{ url_for('kasm_viewer', container_id=container_id) }}";
+            var CONTAINER_ID = "{{ container_id }}";
+            var WINDOW_NAME  = "kasm_session_" + CONTAINER_ID;
+            var CHANNEL_NAME = "uam-kasm-session";
 
-        function abrirKasm(event) {
-            event.preventDefault();
-            kasmWindow = window.open("{{ kasm_url }}", "kasm_session");
-            document.getElementById("status-text").textContent = "Sesión abierta";
-            document.getElementById("sub-status").textContent = "Su sesión de Refinitiv está activa en otra pestaña.";
-            var spinner = document.getElementById("spinner");
-            if (spinner) { spinner.style.borderTopColor = "#2D8A39"; spinner.style.animationDuration = "2s"; }
-        }
+            // Referencia a la pestaña del visor (relay page, mismo origen).
+            var kasmWindow = null;
 
-        function cerrarKasm() {
-            // Intentar cerrar la pestaña de Kasm al hacer logout
-            if (kasmWindow && !kasmWindow.closed) {
-                kasmWindow.close();
+            // Canal de comunicación entre pestañas del mismo origen.
+            var bc = ("BroadcastChannel" in window)
+                ? new BroadcastChannel(CHANNEL_NAME)
+                : null;
+
+            function marcarSesionAbierta() {
+                document.getElementById("status-text").textContent = "Sesión abierta";
+                document.getElementById("sub-status").textContent =
+                    "Su sesión de Refinitiv está activa en otra pestaña.";
+                var spinner = document.getElementById("spinner");
+                if (spinner) {
+                    spinner.style.borderTopColor = "#2D8A39";
+                    spinner.style.animationDuration = "2s";
+                }
             }
-        }
 
-        // Auto-abrir después de 2 segundos
-        setTimeout(function() {
-            kasmWindow = window.open("{{ kasm_url }}", "kasm_session");
-            document.getElementById("status-text").textContent = "Sesión abierta";
-            document.getElementById("sub-status").textContent = "Su sesión de Refinitiv está activa en otra pestaña.";
-            var spinner = document.getElementById("spinner");
-            if (spinner) { spinner.style.borderTopColor = "#2D8A39"; spinner.style.animationDuration = "2s"; }
-        }, 2000);
+            function abrirVisor() {
+                // Reutiliza la misma pestaña con nombre fijo por contenedor:
+                // si ya está abierta, window.open solo la enfoca.
+                kasmWindow = window.open(VIEWER_URL, WINDOW_NAME);
+                marcarSesionAbierta();
+                return kasmWindow;
+            }
+
+            // Handler del enlace "Abrir Refinitiv Workspace".
+            window.abrirKasm = function (event) {
+                if (event) event.preventDefault();
+                abrirVisor();
+            };
+
+            // ---- Cierre de la pestaña del visor al hacer logout ----------------
+            function senalarCierre() {
+                // 1) BroadcastChannel: el visor (mismo origen) recibe el mensaje
+                //    y cierra su propia ventana. Es el mecanismo principal y
+                //    sobrevive a la recarga de esta página tras el POST.
+                if (bc) {
+                    try { bc.postMessage({ type: "logout", containerId: CONTAINER_ID }); } catch (e) {}
+                }
+
+                // 2) Respaldo vía localStorage (dispara 'storage' en otras pestañas
+                //    del mismo origen; útil en navegadores sin BroadcastChannel).
+                try {
+                    localStorage.setItem("uam-kasm-logout", JSON.stringify({
+                        containerId: CONTAINER_ID,
+                        ts: Date.now()
+                    }));
+                } catch (e) {}
+
+                // 3) Respaldo directo: postMessage + close() sobre la referencia,
+                //    por si el visor sigue accesible desde este contexto.
+                if (kasmWindow && !kasmWindow.closed) {
+                    try { kasmWindow.postMessage({ type: "uam-logout" }, window.location.origin); } catch (e) {}
+                    try { kasmWindow.close(); } catch (e) {}
+                }
+            }
+
+            // Intercepta el submit del form de logout: confirma, señala el cierre
+            // de la pestaña del visor y SOLO ENTONCES envía el POST. Así evitamos
+            // la race condition entre cerrar la ventana y recargar esta página.
+            var form = document.getElementById("form-cerrar");
+            if (form) {
+                form.addEventListener("submit", function (event) {
+                    if (!window.confirm("¿Desea cerrar su sesión y liberar el contenedor?")) {
+                        event.preventDefault();
+                        return;
+                    }
+                    event.preventDefault();
+                    senalarCierre();
+                    // Damos un instante para que el visor procese el mensaje y se
+                    // cierre antes de navegar (el POST recarga/redirige esta página).
+                    setTimeout(function () { form.submit(); }, 250);
+                });
+            }
+
+            // Si esta página se cierra o navega, intenta cerrar también el visor.
+            window.addEventListener("pagehide", function () {
+                if (kasmWindow && !kasmWindow.closed) {
+                    try { kasmWindow.close(); } catch (e) {}
+                }
+            });
+
+            // Auto-abrir el visor después de 2 segundos.
+            setTimeout(abrirVisor, 2000);
+        })();
     </script>
 </body>
 </html>

@@ -437,6 +437,36 @@ def profesor_entrar(container_id: int):
     )
 
 
+@app.route("/kasm-viewer/<int:container_id>")
+@login_required
+def kasm_viewer(container_id: int):
+    """
+    Relay page (mismo origen que el portal) que embebe la sesión Kasm en un
+    iframe a pantalla completa.
+
+    ¿Por qué existe?
+    ----------------
+    La pestaña de Kasm corre en https://host:8901 (origen distinto al portal
+    http://host:8080). Una ventana no puede cerrar de forma fiable a otra de
+    distinto origen, y la referencia `window.open()` se pierde cuando la página
+    que la abrió recarga (p. ej. tras el POST de logout).
+
+    Al abrir en su lugar esta página —servida por el propio portal— la pestaña
+    resultante es *mismo origen* que session.html. Eso permite usar un
+    BroadcastChannel para que, al hacer logout, esta página cierre su PROPIA
+    ventana con window.close() (operación siempre permitida sobre ventanas
+    abiertas por script del mismo origen).
+    """
+    host = request.host.split(":")[0]
+    proxy_port = 8900 + container_id
+    kasm_url = f"https://{host}:{proxy_port}"
+    return render_template(
+        "kasm_viewer.html",
+        kasm_url=kasm_url,
+        container_id=container_id,
+    )
+
+
 @app.route("/liberar/<int:container_id>", methods=["POST"])
 @login_required
 def liberar(container_id: int):
