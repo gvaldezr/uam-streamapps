@@ -46,6 +46,7 @@ services:
     build: ./nginx
     container_name: uam_nginx
     ports:
+      - "443:443"
       - "8901:8901"
       - "8902:8902"
       - "8903:8903"
