@@ -13,25 +13,43 @@
             background: #1a1a1a;
         }
         #kasm-frame {
+            position: fixed;
+            inset: 0;               /* top:0 right:0 bottom:0 left:0 */
             border: 0;
             width: 100vw;
             height: 100vh;
             display: block;
+            z-index: 1;
         }
+        /*
+         * Aviso del certificado: se coloca ABAJO A LA DERECHA para no cubrir el
+         * borde superior/izquierdo, que es donde KasmVNC muestra su control
+         * (handle) para desplegar la barra lateral de opciones. Es descartable
+         * y se oculta solo tras unos segundos, de modo que nunca intercepta el
+         * hover sobre los bordes del iframe.
+         */
         #aviso-cert {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            bottom: 1rem;
+            right: 1rem;
+            max-width: 360px;
             background: #2D2D2D;
             color: #eee;
             font-family: system-ui, -apple-system, sans-serif;
-            font-size: 0.85rem;
-            padding: 0.6rem 1rem;
-            z-index: 10;
+            font-size: 0.82rem;
+            line-height: 1.35;
+            padding: 0.7rem 0.9rem;
+            border-radius: 8px;
+            z-index: 15;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            align-items: flex-start;
+            gap: 0.75rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            transition: opacity 0.4s ease;
+        }
+        #aviso-cert.oculto {
+            opacity: 0;
+            pointer-events: none;
         }
         #aviso-cert a {
             color: #7CB9E8;
@@ -40,10 +58,11 @@
             background: transparent;
             border: 1px solid #666;
             color: #ccc;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.55rem;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
         #cerrando {
             position: fixed;
@@ -61,14 +80,15 @@
     </style>
 </head>
 <body>
-    <!-- Aviso inicial: aceptar certificado auto-firmado de Kasm -->
+    <!-- Aviso inicial (abajo-derecha, descartable, no cubre los bordes del iframe) -->
     <div id="aviso-cert">
         <span>
-            Si ve una pantalla en blanco, abra
-            <a href="{{ kasm_url }}" target="_blank" rel="noopener">{{ kasm_url }}</a>
-            en una pestaña, acepte el certificado ("Avanzado" → "Continuar") y recargue aquí.
+            ¿Pantalla en blanco? Abra
+            <a href="{{ kasm_url }}" target="_blank" rel="noopener">la sesión directa</a>,
+            acepte el certificado ("Avanzado" → "Continuar") y recargue aquí.<br>
+            <small style="color:#9a9a9a;">La barra de opciones de Kasm aparece al acercar el mouse al borde izquierdo.</small>
         </span>
-        <button type="button" onclick="document.getElementById('aviso-cert').style.display='none'">Ocultar</button>
+        <button type="button" onclick="ocultarAviso()">Cerrar</button>
     </div>
 
     <iframe id="kasm-frame"
@@ -84,6 +104,14 @@
         (function () {
             var CONTAINER_ID = "{{ container_id }}";
             var CHANNEL_NAME = "uam-kasm-session";
+
+            // --- Aviso descartable -------------------------------------------
+            var aviso = document.getElementById("aviso-cert");
+            window.ocultarAviso = function () {
+                if (aviso) aviso.classList.add("oculto");
+            };
+            // Se auto-oculta a los 12 s para liberar por completo el viewport.
+            setTimeout(window.ocultarAviso, 12000);
 
             function cerrarEstaVentana() {
                 // Esta ventana fue abierta por window.open() desde session.html
