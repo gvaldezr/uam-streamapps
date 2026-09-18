@@ -56,7 +56,7 @@
     }
   },
   "contenedores": {
-    "cantidad": 25,
+    "cantidad": 3,
     "puerto_base": 6901,
     "imagen": "uam-streamapps:latest",
     "vnc": {
