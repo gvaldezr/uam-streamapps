@@ -512,7 +512,7 @@ def logout():
         liberar_contenedor_por_usuario(session_uid)
 
     session.clear()
-    flash("Sesión cerrada correctamente.", "success")
+    flash("Sesión cerrada correctamente. Recuerde cerrar la pestaña de Refinitiv Workspace en su navegador.", "success")
     return redirect(url_for("login"))
 
 
