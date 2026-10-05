@@ -1,62 +1,514 @@
 {
   "clases": {
-    "A": {
-      "nombre": "Clase A",
+    "51722": {
+      "nombre": "FIN1402 - Mercados financieros (NRC 51722)",
       "horario": {
-        "hora_inicio": "09:00",
-        "hora_fin": "11:00",
-        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+        "hora_inicio": "10:00",
+        "hora_fin": "11:27",
+        "dias_semana": [
+          "Lunes",
+          "Miércoles"
+        ]
       },
       "credenciales": {
         "alumno": {
-          "usuario": "claseA",
-          "password": "MayabA2026"
+          "usuario": "nrc51722",
+          "password": "Mayab51722"
         },
         "profesor": {
-          "usuario": "profA",
-          "password": "ProfMayabA2026"
+          "usuario": "prof51722",
+          "password": "Prof51722"
         }
-      }
+      },
+      "inscritos": 30
     },
-    "B": {
-      "nombre": "Clase B",
+    "51727": {
+      "nombre": "FIN1402 - Mercados financieros (NRC 51727)",
       "horario": {
-        "hora_inicio": "11:15",
-        "hora_fin": "13:15",
-        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+        "hora_inicio": "10:00",
+        "hora_fin": "11:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
       },
       "credenciales": {
         "alumno": {
-          "usuario": "claseB",
-          "password": "MayabB2026"
+          "usuario": "nrc51727",
+          "password": "Mayab51727"
         },
         "profesor": {
-          "usuario": "profB",
-          "password": "ProfMayabB2026"
+          "usuario": "prof51727",
+          "password": "Prof51727"
         }
-      }
+      },
+      "inscritos": 35
     },
-    "C": {
-      "nombre": "Clase C",
+    "51732": {
+      "nombre": "FIN1402 - Mercados financieros (NRC 51732)",
       "horario": {
-        "hora_inicio": "15:00",
-        "hora_fin": "17:00",
-        "dias_semana": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+        "hora_inicio": "10:00",
+        "hora_fin": "11:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
       },
       "credenciales": {
         "alumno": {
-          "usuario": "claseC",
-          "password": "MayabC2026"
+          "usuario": "nrc51732",
+          "password": "Mayab51732"
         },
         "profesor": {
-          "usuario": "profC",
-          "password": "ProfMayabC2026"
+          "usuario": "prof51732",
+          "password": "Prof51732"
         }
-      }
+      },
+      "inscritos": 35
+    },
+    "51737": {
+      "nombre": "FIN1402 - Mercados financieros (NRC 51737)",
+      "horario": {
+        "hora_inicio": "10:00",
+        "hora_fin": "11:27",
+        "dias_semana": [
+          "Lunes",
+          "Miércoles"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51737",
+          "password": "Mayab51737"
+        },
+        "profesor": {
+          "usuario": "prof51737",
+          "password": "Prof51737"
+        }
+      },
+      "inscritos": 37
+    },
+    "51764": {
+      "nombre": "FIN3404 - Mercado de deuda (NRC 51764)",
+      "horario": {
+        "hora_inicio": "16:00",
+        "hora_fin": "18:57",
+        "dias_semana": [
+          "Lunes",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51764",
+          "password": "Mayab51764"
+        },
+        "profesor": {
+          "usuario": "prof51764",
+          "password": "Prof51764"
+        }
+      },
+      "inscritos": 34
+    },
+    "51769": {
+      "nombre": "FIN3404 - Mercado de deuda (NRC 51769)",
+      "horario": {
+        "hora_inicio": "16:00",
+        "hora_fin": "18:57",
+        "dias_semana": [
+          "Lunes",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51769",
+          "password": "Mayab51769"
+        },
+        "profesor": {
+          "usuario": "prof51769",
+          "password": "Prof51769"
+        }
+      },
+      "inscritos": 37
+    },
+    "51774": {
+      "nombre": "FIN3404 - Mercado de deuda (NRC 51774)",
+      "horario": {
+        "hora_inicio": "16:00",
+        "hora_fin": "17:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51774",
+          "password": "Mayab51774"
+        },
+        "profesor": {
+          "usuario": "prof51774",
+          "password": "Prof51774"
+        }
+      },
+      "inscritos": 25
+    },
+    "51777": {
+      "nombre": "FIN4410 - Portafolios de inversión (NRC 51777)",
+      "horario": {
+        "hora_inicio": "19:00",
+        "hora_fin": "20:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51777",
+          "password": "Mayab51777"
+        },
+        "profesor": {
+          "usuario": "prof51777",
+          "password": "Prof51777"
+        }
+      },
+      "inscritos": 39
+    },
+    "51778": {
+      "nombre": "FIN3402 - Evaluación proy. inversión (NRC 51778)",
+      "horario": {
+        "hora_inicio": "19:00",
+        "hora_fin": "20:27",
+        "dias_semana": [
+          "Miércoles",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51778",
+          "password": "Mayab51778"
+        },
+        "profesor": {
+          "usuario": "prof51778",
+          "password": "Prof51778"
+        }
+      },
+      "inscritos": 39
+    },
+    "51783": {
+      "nombre": "FIN4410 - Portafolios de inversión (NRC 51783)",
+      "horario": {
+        "hora_inicio": "20:30",
+        "hora_fin": "21:57",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51783",
+          "password": "Mayab51783"
+        },
+        "profesor": {
+          "usuario": "prof51783",
+          "password": "Prof51783"
+        }
+      },
+      "inscritos": 35
+    },
+    "51784": {
+      "nombre": "FIN3402 - Evaluación proy. inversión (NRC 51784)",
+      "horario": {
+        "hora_inicio": "20:30",
+        "hora_fin": "21:57",
+        "dias_semana": [
+          "Miércoles",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51784",
+          "password": "Mayab51784"
+        },
+        "profesor": {
+          "usuario": "prof51784",
+          "password": "Prof51784"
+        }
+      },
+      "inscritos": 34
+    },
+    "51791": {
+      "nombre": "FIN3402 - Eval proy. inversión (minor) (NRC 51791)",
+      "horario": {
+        "hora_inicio": "14:30",
+        "hora_fin": "15:57",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51791",
+          "password": "Mayab51791"
+        },
+        "profesor": {
+          "usuario": "prof51791",
+          "password": "Prof51791"
+        }
+      },
+      "inscritos": 30
+    },
+    "51792": {
+      "nombre": "FIN3404 - Mercado de deuda (minor) (NRC 51792)",
+      "horario": {
+        "hora_inicio": "14:30",
+        "hora_fin": "15:57",
+        "dias_semana": [
+          "Lunes",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51792",
+          "password": "Mayab51792"
+        },
+        "profesor": {
+          "usuario": "prof51792",
+          "password": "Prof51792"
+        }
+      },
+      "inscritos": 21
+    },
+    "51793": {
+      "nombre": "FIN4410 - Portafolios inversión (minor) (NRC 51793)",
+      "horario": {
+        "hora_inicio": "14:30",
+        "hora_fin": "15:57",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51793",
+          "password": "Mayab51793"
+        },
+        "profesor": {
+          "usuario": "prof51793",
+          "password": "Prof51793"
+        }
+      },
+      "inscritos": 16
+    },
+    "51797": {
+      "nombre": "FIN1402 - Mercados financieros (NRC 51797)",
+      "horario": {
+        "hora_inicio": "16:00",
+        "hora_fin": "17:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc51797",
+          "password": "Mayab51797"
+        },
+        "profesor": {
+          "usuario": "prof51797",
+          "password": "Prof51797"
+        }
+      },
+      "inscritos": 15
+    },
+    "52323": {
+      "nombre": "FIN3402 - Eval inversión (ADMI) (NRC 52323)",
+      "horario": {
+        "hora_inicio": "19:00",
+        "hora_fin": "20:27",
+        "dias_semana": [
+          "Lunes",
+          "Miércoles"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52323",
+          "password": "Mayab52323"
+        },
+        "profesor": {
+          "usuario": "prof52323",
+          "password": "Prof52323"
+        }
+      },
+      "inscritos": 27
+    },
+    "52329": {
+      "nombre": "FIN3402 - Eval inversión (ADMI) (NRC 52329)",
+      "horario": {
+        "hora_inicio": "20:30",
+        "hora_fin": "21:57",
+        "dias_semana": [
+          "Lunes",
+          "Miércoles"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52329",
+          "password": "Mayab52329"
+        },
+        "profesor": {
+          "usuario": "prof52329",
+          "password": "Prof52329"
+        }
+      },
+      "inscritos": 21
+    },
+    "53014": {
+      "nombre": "FIN3402 - Eval inversión (ADMI) (NRC 53014)",
+      "horario": {
+        "hora_inicio": "20:30",
+        "hora_fin": "21:57",
+        "dias_semana": [
+          "Lunes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc53014",
+          "password": "Mayab53014"
+        },
+        "profesor": {
+          "usuario": "prof53014",
+          "password": "Prof53014"
+        }
+      },
+      "inscritos": 16
+    },
+    "52219": {
+      "nombre": "FIN2401 - Análisis estados financieros (NEGI) (NRC 52219)",
+      "horario": {
+        "hora_inicio": "20:30",
+        "hora_fin": "21:57",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52219",
+          "password": "Mayab52219"
+        },
+        "profesor": {
+          "usuario": "prof52219",
+          "password": "Prof52219"
+        }
+      },
+      "inscritos": 34
+    },
+    "52224": {
+      "nombre": "FIN2401 - Análisis estados financieros (NEGI) (NRC 52224)",
+      "horario": {
+        "hora_inicio": "19:00",
+        "hora_fin": "20:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52224",
+          "password": "Mayab52224"
+        },
+        "profesor": {
+          "usuario": "prof52224",
+          "password": "Prof52224"
+        }
+      },
+      "inscritos": 33
+    },
+    "52229": {
+      "nombre": "FIN2401 - Análisis estados financieros (NEGI) (NRC 52229)",
+      "horario": {
+        "hora_inicio": "19:00",
+        "hora_fin": "20:27",
+        "dias_semana": [
+          "Miércoles",
+          "Viernes"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52229",
+          "password": "Mayab52229"
+        },
+        "profesor": {
+          "usuario": "prof52229",
+          "password": "Prof52229"
+        }
+      },
+      "inscritos": 35
+    },
+    "52239": {
+      "nombre": "FIN2401 - Análisis estados financieros (MERC) (NRC 52239)",
+      "horario": {
+        "hora_inicio": "16:00",
+        "hora_fin": "17:27",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52239",
+          "password": "Mayab52239"
+        },
+        "profesor": {
+          "usuario": "prof52239",
+          "password": "Prof52239"
+        }
+      },
+      "inscritos": 34
+    },
+    "52245": {
+      "nombre": "FIN2401 - Análisis estados financieros (MERC) (NRC 52245)",
+      "horario": {
+        "hora_inicio": "17:30",
+        "hora_fin": "18:57",
+        "dias_semana": [
+          "Martes",
+          "Jueves"
+        ]
+      },
+      "credenciales": {
+        "alumno": {
+          "usuario": "nrc52245",
+          "password": "Mayab52245"
+        },
+        "profesor": {
+          "usuario": "prof52245",
+          "password": "Prof52245"
+        }
+      },
+      "inscritos": 22
     }
   },
   "contenedores": {
-    "cantidad": 3,
+    "cantidad": 25,
     "puerto_base": 6901,
     "imagen": "uam-streamapps:latest",
     "vnc": {
@@ -70,7 +522,7 @@
   },
   "configuracion_general": {
     "nombre_proyecto": "UAM StreamApps",
-    "version": "1.0",
+    "version": "2.0",
     "ambiente": "produccion"
   }
 }
