@@ -2,6 +2,11 @@
 # .gitignore - Kasm Chrome UAM StreamApps
 # =============================================================================
 
+# Herramientas de desarrollo AIDLC / Kiro (no versionar en el repo de producción)
+.kiro/
+aidlc/
+aidlc.settings.json
+
 # Archivos de entorno (con datos sensibles)
 .env
 .env.local
